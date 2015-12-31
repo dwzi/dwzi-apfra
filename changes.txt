@@ -1,0 +1,62 @@
+1.42 (15.11.2015)
+
+   delete from aRef where aRef = 'refid_aMenu_parent' limit 1;
+   UPDATE aModule SET refid_aModuleType = NULL, sql_table_perpage = NULL, sql_table_search = NULL, sql_table_fields = NULL, sql_table_order = NULL, sql_edit_legend = NULL, sql_edit_fields = NULL, sql_export_fields = NULL, sql_export_order = NULL, sql_print_fields = NULL, sql_print_order = NULL WHERE aModule = 'aMenu' limit 1;
+
+   Datenbank Sync (AufgabeBenutzer)
+
+   cd upgrade
+   mysql < v1.2x_v.1.42_diff.sql
+   php v1.42_import_datasql.php
+
+1.43 (9.12.2015)
+
+   git start
+   restructuring directories/files
+
+1.44 (10.12.2015)
+
+   changed files due to new structure
+
+1.45 (11.12.2015)
+
+   changed files due to new structure
+
+1.46 (14.12.2015)
+
+   changed files due to new structure
+
+   cd upgrade
+   mysql < v1.42_v.1.46_diff.sql
+
+1.47 (15.12.2015)
+
+   rebuild demo database
+   changed files due to new structure
+
+1.48 (27.12.2015)
+
+   cd upgrade
+   mysql < v1.48_diff.sql
+
+   rebuild demo database
+   config.inc.php new variable DEF_PATH_PRIVATE, changed all related files
+   new reports
+   changed reload_timeout in index.php
+   aImportConfig
+   aExportConfig
+
+1.49 (29.12.2015)
+
+   cd upgrade
+   mysql < v1.49_diff.sql
+
+   cron jobs implemented (private/cron/*.inc.php)
+   created cron job for demo site with data reload every 10 minutes
+
+1.50 (31.12.2015)
+
+   cd upgrade
+   mysql < v1.50_diff.sql
+
+   new parameters in config.inc.php (DEF_PREVENT_AUTOLOGOUT, DEF_PREVENT_TIME, DEF_AUTORELOAD, DEF_AUTOLOGOUT)

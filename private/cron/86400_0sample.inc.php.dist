@@ -1,0 +1,23 @@
+<?php
+
+/*
+filename:
+[interval in s]_0name.inc.php
+
+1 s = 1 (second)
+1 m = 60 (minute)
+1 h = 3600 (hour)
+1 d = 86400 (day)
+1 w = 604800 (week)
+
+1_0cron.inc.php (every second)
+10_0cron.inc.php (every 10 seconds)
+60_0cron.inc.php (every 60 seconds = every minute)
+3600_0cron.inc.php (every hour)
+3600_1cron.inc.php (every hour, cron job no 2)
+86400_0cron.inc.php (every day)
+*/
+
+// write code here
+
+?>

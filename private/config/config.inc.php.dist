@@ -1,0 +1,20 @@
+<?php
+
+define("DEF_URL", "http://[url]/");
+
+define("DEF_PATH", "/[absolute path]/httpdocs/");
+define("DEF_PATH_PRIVATE", "/[absolute path]/private/");
+
+define("DEF_DB", "[database name]");
+define("DEF_DB_HOST", "[database host]");
+define("DEF_DB_USER", "[database user]");
+define("DEF_DB_PASS", "[database password]");
+
+define("DEF_SESSION", "[session name, e.g.: mANvf98d");
+
+define("DEF_DEBUG", false);
+
+define("DEF_APPNAME", "[app name]");
+define("DEF_COMPANY", "[company name]");
+
+?>

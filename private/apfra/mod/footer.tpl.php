@@ -1,0 +1,7 @@
+{strip}
+
+	</body>
+
+</html>
+
+{/strip}

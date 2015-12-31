@@ -1,0 +1,8 @@
+.DS_Store
+*~
+*.swp
+private/config/config.inc.php
+private/tplc
+tools
+private/cron/600_0reload_data
+private/cron/600_0reload_data.inc.php
