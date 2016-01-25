@@ -359,10 +359,10 @@ die();
 				$apfra_log_db->update($datasql_table, $id, $delta);
 			}
 
-			if (file_exists(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module."_post_save.inc.php")) {
-				require(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module."_post_save.inc.php");
-			} elseif (file_exists(DEF_PATH_PRIVATE."mod/".$module."/".$module."_post_save.inc.php")) {
-				require(DEF_PATH_PRIVATE."mod/".$module."/".$module."_post_save.inc.php");
+			if (file_exists(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module."_post_save.inc.php")) {
+				require(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module."_post_save.inc.php");
+			} elseif (file_exists(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_post_save.inc.php")) {
+				require(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_post_save.inc.php");
 			}
 
 			if ($formaction == "save") {
@@ -750,10 +750,10 @@ if ($id > 0) {
 
 	if ($id == 0 && $refcol && $refvalue) {
 
-		if (file_exists(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module."_pre_insert.inc.php")) {
-			require(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module."_pre_insert.inc.php");
-		} elseif (file_exists(DEF_PATH_PRIVATE."mod/".$module."/".$module."_pre_insert.inc.php")) {
-			require(DEF_PATH_PRIVATE."mod/".$module."/".$module."_pre_insert.inc.php");
+		if (file_exists(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module."_pre_insert.inc.php")) {
+			require(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module."_pre_insert.inc.php");
+		} elseif (file_exists(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_pre_insert.inc.php")) {
+			require(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_pre_insert.inc.php");
 		}
 
 		if (count($data)) {
@@ -786,10 +786,10 @@ die();
 		$data[$field] = $value;
 	}
 
-	if (file_exists(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module."_pre_insert.inc.php")) {
-		require(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module."_pre_insert.inc.php");
-	} elseif (file_exists(DEF_PATH_PRIVATE."mod/".$module."/".$module."_pre_insert.inc.php")) {
-		require(DEF_PATH_PRIVATE."mod/".$module."/".$module."_pre_insert.inc.php");
+	if (file_exists(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module."_pre_insert.inc.php")) {
+		require(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module."_pre_insert.inc.php");
+	} elseif (file_exists(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_pre_insert.inc.php")) {
+		require(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_pre_insert.inc.php");
 	}
 }
 

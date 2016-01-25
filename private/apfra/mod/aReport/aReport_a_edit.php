@@ -17,13 +17,13 @@ $data_convert_date = array();
 foreach ($datasql_edit_fields as $fields_tab) {
 	foreach ($fields_tab["row"] as $fields_row) {
 		foreach ($fields_row["col"] as $fields_col) {
-			$datasql_fields_edit[] = $fields_col["field"];				
+			$datasql_fields_edit[] = $fields_col["field"];
 		}
 	}
 }
 
 if (substr($formaction,0,4) == "del_") {
-	
+
 	$did = isset($_SESSION["psd"]["did"]) ? $_SESSION["psd"]["did"] : "";
 	if ($did) {
 
@@ -48,7 +48,7 @@ die();
 
 			$apfra_log_db->delete(substr($formaction,4,255), $did, $delta);
 		}
-		reload_page("?mod=".$module."&p=".$page."&s=".$search."&a=".$action."&id=".$id."&t=".$tab);		
+		reload_page("?mod=".$module."&p=".$page."&s=".$search."&a=".$action."&id=".$id."&t=".$tab);
 	}
 }
 
@@ -85,7 +85,7 @@ if ($formaction == "save" || $formaction == "saveback") {
 				}
 			}
 		}
-		
+
 		if (count($data_convert_datetime)) {
 			foreach ($data_convert_datetime as $field) {
 				if ($fieldarr[$field]) {
@@ -108,10 +108,10 @@ if ($formaction == "save" || $formaction == "saveback") {
 	if (!$errors) {
 
 //		$fields = implode(", ", $fieldarr);
-		
+
 		$fieldarr["aLastUpdate"] = $datetime;
 		$fieldarr["refid_aUser_update"] = $_SESSION["psu"]["id"];
-		
+
 		if ($id > 0) {
 			$query = "update ".$datasql_table." set ";
 			if (count($fieldarr)) {
@@ -140,9 +140,9 @@ if ($formaction == "save" || $formaction == "saveback") {
 				$query .= ")";
 			}
 		}
-		
+
 		$delta = array();
-		if ($id > 0) {		
+		if ($id > 0) {
 			if ($result = $db->Execute("select aLastUpdate, ".implode(",",$datasql_fields_edit)." from ".$datasql_table." where id = '".$id."' limit 1")) {
 				if (!$result->EOF) {
 					$delta["aLastUpdate"] = $result->fields["aLastUpdate"] ? $result->fields["aLastUpdate"] : "0000-00-00 00:00:00";
@@ -154,7 +154,7 @@ if ($formaction == "save" || $formaction == "saveback") {
 				}
 			}
 		}
-		
+
 		if (!$result = $db->Execute($query)) {
 echo $query;
 die();
@@ -167,8 +167,8 @@ die();
 			}
 
 			if ($formaction == "save") {
-				
-				if ($id == 0) {	
+
+				if ($id == 0) {
 					if ($tmpid = $db->Insert_ID()) {
 						reload_page("?mod=".$module."&p=".$page."&s=".$search."&a=".$action."&id=".$tmpid."&t=".$tab);
 					} else {
@@ -181,11 +181,11 @@ die();
 		}
 
 		if ($formaction == "saveback") {
-				if ($backmod && $backid) {	
+				if ($backmod && $backid) {
 					reload_page("?mod=".$backmod."&a=edit&id=".$backid."&t=".$backt);
 				} else {
 					reload_page("?mod=".$module."&p=".$page."&s=".$search);
-				}	
+				}
 		}
 	}
 }
@@ -204,7 +204,7 @@ if (($id > 0) && ($result = $db->Execute("select aLastUpdate, (select aUser from
 			if ($field != "filter") {
 				$field = str_replace("`","",$field);
 				if (strpos($field, " as ")) $field = substr($field, strpos($field, " as ")+4, strlen($field));
-				$data[$field] = $result->fields[$field];				
+				$data[$field] = $result->fields[$field];
 			} else {
 				$data[$field] = "";
 				if ($result->fields[$field] != "") {
@@ -225,9 +225,9 @@ if (($id > 0) && ($result = $db->Execute("select aLastUpdate, (select aUser from
 	foreach ($datasql_fields_add_default as $field => $value) {
 		$data[$field] = $value;
 	}
-	
-	if (file_exists(DEF_PATH_PRIVATE."mod/".$module."/".$module."_pre_insert.inc.php")) {
-		require(DEF_PATH_PRIVATE."mod/".$module."/".$module."_pre_insert.inc.php");
+
+	if (file_exists(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_pre_insert.inc.php")) {
+		require(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_pre_insert.inc.php");
 	}
 }
 

@@ -1,9 +1,15 @@
 <?php
 
+if (!defined("DIRECTORY_SEPARATOR")) {
+    define('DS', DIRECTORY_SEPARATOR);
+} else {
+   define('DS', "/");
+}
+
 define("DEF_URL", "http://[url]/");
 
-define("DEF_PATH", "/[absolute path]/httpdocs/");
-define("DEF_PATH_PRIVATE", "/[absolute path]/private/");
+define("DEF_PATH", DS."[absolute path]".DS."httpdocs".DS);
+define("DEF_PATH_PRIVATE", DS."[absolute path]".DS."private".DS);
 
 define("DEF_DB", "[database name]");
 define("DEF_DB_HOST", "[database host]");
@@ -11,6 +17,11 @@ define("DEF_DB_USER", "[database user]");
 define("DEF_DB_PASS", "[database password]");
 
 define("DEF_SESSION", "[session name, e.g.: mANvf98d");
+
+define("DEF_PREVENT_AUTOLOGOUT", "[0 or 1]");
+define("DEF_PREVENT_TIME", "[time in seconds]");
+define("DEF_AUTORELOAD", "[0 or 1]");
+define("DEF_AUTOLOGOUT", "[0 or 1]");
 
 define("DEF_DEBUG", false);
 

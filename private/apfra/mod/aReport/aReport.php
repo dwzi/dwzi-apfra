@@ -1,7 +1,7 @@
 <?php
 // TODO review aReport_edit (remove datetime, etc, remove def-file)
 
-require(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module.".def.php");
+require(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module.".def.php");
 
 $id = isset($_SESSION["psd"]["id"]) ? $_SESSION["psd"]["id"] : 0;
 $page = isset($_SESSION["psd"]["p"]) ? $_SESSION["psd"]["p"] : 1;
@@ -51,15 +51,15 @@ if (($result = $db->Execute("show tables"))) {
 
 			$tmpfields = array();
 			if (($resultf = $db->Execute("show fields from ".$tmptable))) {
-			
+
 				while (!$resultf->EOF) {
-			
+
 					$tmpfield = $resultf->fields[0];
-			
+
 					if (!in_array($tmpfield, array('id', 'aLastUpdate', 'refid_aUser_update'))) {
-			
+
 						$tmpfields[] = array('field' => $tmpfield, 'desc' => '');
-						
+
 						if (substr($tmpfield,0,6) == "refid_") {
 							$datareport_ref[$tmptable][substr($tmpfield,6,255)] = $tmpfield;
 						}
@@ -67,7 +67,7 @@ if (($result = $db->Execute("show tables"))) {
 					$resultf->MoveNext();
 				}
 			}
-				
+
 			$datareport_def[] = array('table' => $tmptable, 'fields' => $tmpfields);
 		}
 		$result->MoveNext();
@@ -75,16 +75,16 @@ if (($result = $db->Execute("show tables"))) {
 }
 
 if ($action == "export" || $action == "print") {
-	
+
 	$datasql_reference1n = array();
 	if ($result = $db->Execute("select (select aTable from aTable where id = refid_aTable_1) as aTable1, (select aTable from aTable where id = refid_aTable_n) as aTablen from aRef1n")) {
-	
+
 		while (!$result->EOF) {
-	
+
 			$datasql_reference1n[] = "ref1n_".$result->fields["aTable1"]."_".$result->fields["aTablen"];
 			$result->MoveNext();
 		}
-	}	
+	}
 }
 
 switch ($action) {
@@ -92,14 +92,14 @@ switch ($action) {
 case "edit":
 case "delete":
 case "export":
-case "print":	
-	require(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module."_a_".$action.".php");
+case "print":
+	require(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module."_a_".$action.".php");
 	break;
-	
+
 /* main */
 case "":
 default:
-	require(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module."_main.php");
+	require(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module."_main.php");
 	break;
 }
 

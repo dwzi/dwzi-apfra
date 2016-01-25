@@ -66,9 +66,9 @@ $('#Modal-delete').on('show.bs.modal', function(e) {
 </script>
 {strip}
 
-{if file_exists("`$path`../private/mod/`$module`/`$module`_main_pre_buttons.tpl.php")}
+{if file_exists("`$module`/`$module`_main_pre_buttons.tpl.php")}
 
-	{include file="`$path`../private/mod/`$module`/`$module`_main_pre_buttons.tpl.php"}
+	{include file="`$module`/`$module`_main_pre_buttons.tpl.php"}
 
 {/if}
 
@@ -207,9 +207,9 @@ $('#Modal-delete').on('show.bs.modal', function(e) {
 			</td>
 		{/section}
 			<td style="white-space: nowrap;">
-		{if file_exists("`$path`../private/mod/`$module`/`$module`_main_buttons.tpl.php")}
+		{if file_exists("`$module`/`$module`_main_buttons.tpl.php")}
 
-			{include file="`$path`../private/mod/`$module`/`$module`_main_buttons.tpl.php"}
+			{include file="`$module`/`$module`_main_buttons.tpl.php"}
 
 		{/if}
 			{if $apfra_rights[$module]["del"] == 1}

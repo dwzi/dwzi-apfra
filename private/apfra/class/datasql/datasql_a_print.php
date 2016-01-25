@@ -1,6 +1,6 @@
 <?php
 
-require(DEF_PATH_PRIVATE."apfra/lib/tcpdf/tcpdf.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."tcpdf".DS."tcpdf.php");
 
 // extend TCPF with custom functions
 class MYPDF extends TCPDF {
@@ -31,7 +31,7 @@ class MYPDF extends TCPDF {
 		$maxwidth = $this->w - (PDF_MARGIN_LEFT + PDF_MARGIN_RIGHT);
 
 		/* font size 12..7px */
-	
+
 		$fontsize = 12;
 		do {
 			$fontsize--;
@@ -52,23 +52,23 @@ class MYPDF extends TCPDF {
 		/* crop text if more than one page in width */
 
 		if (array_sum($w) > $maxwidth) {
-			
+
 			$datawidth = array();
 			foreach ($header as $value)
 				$datawidth[] = ceil($this->GetStringWidth($value, 'helvetica', 'B', $fontsize))+2;
-			
+
 			foreach ($data as $row) {
 				for ($i=0; $i<count($w); $i++) {
 					$tmp = ceil($this->GetStringWidth($row[$i], 'helvetica', '', $fontsize))+2;
 					if ($datawidth[$i] < $tmp) $datawidth[$i] = $tmp;
 				}
 			}
-			
+
 			arsort($datawidth);
-			
+
 			foreach ($datawidth as $cropcol => $width) {
-				
-				if (array_sum($w) > $maxwidth) { 
+
+				if (array_sum($w) > $maxwidth) {
 
 					/* crop one column */
 
@@ -80,11 +80,11 @@ class MYPDF extends TCPDF {
 					}
 
 					/* recalc width */
-					
+
 					$fontsize = 12;
 					do {
 						$fontsize--;
-	
+
 						$w = array();
 						foreach ($header as $value)
 							$w[] = ceil($this->GetStringWidth($value, 'helvetica', 'B', $fontsize))+2;
@@ -101,9 +101,9 @@ class MYPDF extends TCPDF {
 				}
 			}
 		}
-		
+
 		/* too much text in columns ... */
-		
+
 		$pagepart_c = array(0 => array());
 		$pagepart_w = array(0 => 0);
 
@@ -757,7 +757,7 @@ if ($id) {
 }
 
 
-require(DEF_PATH_PRIVATE."apfra/lib/exit.inc.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."exit.inc.php");
 die();
 
 ?>

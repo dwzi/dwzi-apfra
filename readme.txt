@@ -127,6 +127,7 @@ The idea was creating a framework for a very fast development of web apps.
 
 
 todo:
+- mysql on windows: lower case database names? -> check database sync and functionality
 - datasql_main.php insert _fileinfo column if image/file detected for -> image-view in table
 - improve error handling! (error page for: datasql_edit-file/-image)
 - improve aImport -> if table exists

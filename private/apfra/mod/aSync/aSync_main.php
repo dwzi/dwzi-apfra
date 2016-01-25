@@ -12,7 +12,7 @@ case "ua":
 	$tmptable = isset($_SESSION["psd"]["dtable"]) && $_SESSION["psd"]["dtable"] ? $_SESSION["psd"]["dtable"] : "";
 	$tmpfield = isset($_SESSION["psd"]["dfield"]) && $_SESSION["psd"]["dfield"] ? $_SESSION["psd"]["dfield"] : "";
 	$tmpftype = isset($_SESSION["psd"]["dftype"]) && $_SESSION["psd"]["dftype"] ? $_SESSION["psd"]["dftype"] : "";
-	
+
 	$tmpftypeid = 0;
 	$query = "select id from aFieldType where aFieldType = '".$tmpftype."'";
 	if ($result = $db->Execute($query)) {
@@ -24,33 +24,33 @@ case "ua":
 		$query = "insert into aFieldType (aFieldType, aLastUpdate, refid_aUser_update) values ('".$tmpftype."', '".$datetime."', '".$_SESSION["psu"]["id"]."')";
 		if ($result = $db->Execute($query)) {
 			$tmpftypeid = $db->Insert_ID();
-		}		
+		}
 	}
-	
+
 	$query = "update aField set refid_aFieldType = '".$tmpftypeid."', aLastUpdate = '".$datetime."', refid_aUser_update = '".$_SESSION["psu"]["id"]."' where aField = '".$tmpfield."' and refid_aTable = (select id from aTable where aTable = '".$tmptable."')";
 	$db->Execute($query);
 
 	$tmpmenu = new apfra_menu($db, $_SESSION["psu"]["rights"]);
 	$_SESSION["psu"]["menu"] = $tmpmenu->readmenu();
-	
-	reload_page("?mod=".$module);		
+
+	reload_page("?mod=".$module);
 	break;
 
-/* 
+/*
 checkField 3: fieldTypes in database and apfra-table different; update database
 */
 case "ud":
 	$tmptable = isset($_SESSION["psd"]["dtable"]) && $_SESSION["psd"]["dtable"] ? $_SESSION["psd"]["dtable"] : "";
 	$tmpfield = isset($_SESSION["psd"]["dfield"]) && $_SESSION["psd"]["dfield"] ? $_SESSION["psd"]["dfield"] : "";
 	$tmpftype = isset($_SESSION["psd"]["dftype"]) && $_SESSION["psd"]["dftype"] ? $_SESSION["psd"]["dftype"] : "";
-	
+
 	$query = "alter table ".$tmptable." change ".$tmpfield." ".$tmpfield." ".$tmpftype." null default null";
 	$db->Execute($query);
-	
+
 	$tmpmenu = new apfra_menu($db, $_SESSION["psu"]["rights"]);
 	$_SESSION["psu"]["menu"] = $tmpmenu->readmenu();
-		
-	reload_page("?mod=".$module);		
+
+	reload_page("?mod=".$module);
 	break;
 
 /*
@@ -61,14 +61,14 @@ case "ca":
 	$tmpfields = array();
 
 	if ($fresult = $db->Execute("show fields from ".$tmptable)) {
-	
+
 		while (!$fresult->EOF) {
-	
+
 			$tmpfields[$fresult->fields[0]] = array(
 					"field" => $fresult->fields[0],
 					"fieldType" => $fresult->fields[1]
 			);
-	
+
 			$fresult->MoveNext();
 		}
 	}
@@ -84,13 +84,13 @@ case "ca":
 	if ($found_id == 0) unset($tmpfields["id"]);
 	if ($found_aLastUpdate == 0) unset($tmpfields["aLastUpdate"]);
 	if ($found_refid_aUser_update == 0) unset($tmpfields["refid_aUser_update"]);
-	
+
 	$tmptableid = 0;
 	$query = "insert into aTable (aTable, aTableDesc, aLastUpdate, refid_aUser_update) values ('".$tmptable."', '".$tmptable."', '".$datetime."', '".$_SESSION["psu"]["id"]."')";
 	if ($result = $db->Execute($query)) {
 		$tmptableid = $db->Insert_ID();
 	}
-	
+
 	foreach ($tmpfields as $field => $fieldarr) {
 
 		$tmpftypeid = 0;
@@ -106,37 +106,37 @@ case "ca":
 				$tmpftypeid = $db->Insert_ID();
 			}
 		}
-		
+
 		$query = "insert into aField (refid_aTable, aField, aFieldDesc, refid_aFieldType, aLastUpdate, refid_aUser_update) values ('".$tmptableid."', '".$fieldarr["field"]."', '".$fieldarr["field"]."', '".$tmpftypeid."', '".$datetime."', '".$_SESSION["psu"]["id"]."')";
 		$db->Execute($query);
 	}
 
 	$tmpmenu = new apfra_menu($db, $_SESSION["psu"]["rights"]);
 	$_SESSION["psu"]["menu"] = $tmpmenu->readmenu();
-		
-	reload_page("?mod=".$module);		
+
+	reload_page("?mod=".$module);
 	break;
-	
+
 /*
 checkTable 2: table is only in apfra-table; create table in database
 */
 case "cd":
 	$tmptable = isset($_SESSION["psd"]["dtable"]) && $_SESSION["psd"]["dtable"] ? $_SESSION["psd"]["dtable"] : "";
 	$tmpfields = array();
-	
+
 	if ($result = $db->Execute("select id from aTable where aTable = '".$tmptable."' limit 1")) {
-	
+
 		if (!$result->EOF) {
-	
+
 			if ($fresult = $db->Execute("select aField.id, aField, aFieldDesc, aFieldType from aField, aFieldType where aField.refid_aTable = '".$result->fields["id"]."' and aField.refid_aFieldType = aFieldType.id")) {
-	
+
 				while (!$fresult->EOF) {
-	
+
 					$tmpfields[$fresult->fields["aField"]] = array(
 							"field" => $fresult->fields["aField"],
 							"fieldType" => $fresult->fields["aFieldType"]
 					);
-	
+
 					$fresult->MoveNext();
 				}
 			}
@@ -154,7 +154,7 @@ case "cd":
 	if ($found_id == 0) unset($tmpfields["id"]);
 	if ($found_aLastUpdate == 0) unset($tmpfields["aLastUpdate"]);
 	if ($found_refid_aUser_update == 0) unset($tmpfields["refid_aUser_update"]);
-	
+
 	$query = "";
 	$query .= "create table ".$tmptable." (";
 	$query .= "id int(11) unsigned not null AUTO_INCREMENT,";
@@ -169,8 +169,8 @@ case "cd":
 
 	$tmpmenu = new apfra_menu($db, $_SESSION["psu"]["rights"]);
 	$_SESSION["psu"]["menu"] = $tmpmenu->readmenu();
-		
-	reload_page("?mod=".$module);		
+
+	reload_page("?mod=".$module);
 	break;
 
 /*
@@ -186,7 +186,7 @@ case "ia":
 	if ($result = $db->Execute($query)) {
 		$tmptableid = $result->fields["id"];
 	}
-	
+
 	$tmpftypeid = 0;
 	$query = "select id from aFieldType where aFieldType = '".$tmpftype."'";
 	if ($result = $db->Execute($query)) {
@@ -200,16 +200,16 @@ case "ia":
 			$tmpftypeid = $db->Insert_ID();
 		}
 	}
-	
+
 	$query = "insert into aField (refid_aTable, aField, aFieldDesc, refid_aFieldType, aLastUpdate, refid_aUser_update) values ('".$tmptableid."', '".$tmpfield."', '".$tmpfield."', '".$tmpftypeid."', '".$datetime."', '".$_SESSION["psu"]["id"]."')";
 	$db->Execute($query);
 
 	$tmpmenu = new apfra_menu($db, $_SESSION["psu"]["rights"]);
 	$_SESSION["psu"]["menu"] = $tmpmenu->readmenu();
-		
+
 	reload_page("?mod=".$module);
 	break;
-	
+
 /*
 checkField 2: field is only in apfra-table; insert field in database
 checkField 5: field is missing in database
@@ -224,24 +224,24 @@ case "id":
 		$query = "alter table ".$tmptable." add ".$tmpfield." ".$tmpftype." not null auto_increment primary key first";
 
 	} else {
-		
+
 		$tmpafter = "";
 		if ($fresult = $db->Execute("show fields from ".$tmptable)) {
-		
+
 			while (!$fresult->EOF) {
-	
+
 				if (!in_array($fresult->fields[0], array('aLastUpdate', 'refid_aUser_update')) || ($tmpfield == "refid_aUser_update")) {
-					
+
 					$tmpafter = $fresult->fields[0];
 				}
-		
+
 				$fresult->MoveNext();
 			}
 		}
-		
+
 		$query = "alter table ".$tmptable." add ".$tmpfield." ".$tmpftype." null";
 		if ($tmpafter) {
-			
+
 			$query .= " after ".$tmpafter;
 		}
 	}
@@ -253,7 +253,7 @@ case "id":
 
 	reload_page("?mod=".$module);
 	break;
-	
+
 /*
  checkField 2: field is only in apfra-table; delete field from apfra
 */
@@ -266,24 +266,24 @@ case "da":
 
 	$tmpmenu = new apfra_menu($db, $_SESSION["psu"]["rights"]);
 	$_SESSION["psu"]["menu"] = $tmpmenu->readmenu();
-		
+
 	reload_page("?mod=".$module);
 	break;
-	
+
 /*
 checkTable 1: table is only in database; delete table in database
 checkField 1: field is only in database; delete field in database
-*/	
+*/
 case "dd":
 	$tmptable = isset($_SESSION["psd"]["dtable"]) && $_SESSION["psd"]["dtable"] ? $_SESSION["psd"]["dtable"] : "";
 	$tmpfield = isset($_SESSION["psd"]["dfield"]) && $_SESSION["psd"]["dfield"] ? $_SESSION["psd"]["dfield"] : "";
-	
+
 	if (!$tmpfield) {
 	/*
 	 checkTable 1: table is only in database; delete table in database
 	 */
 		$query = "drop table ".$tmptable;
-		
+
 	} else {
 	/*
 	checkField 1: field is only in database; delete field in database
@@ -295,7 +295,7 @@ case "dd":
 
 	$tmpmenu = new apfra_menu($db, $_SESSION["psu"]["rights"]);
 	$_SESSION["psu"]["menu"] = $tmpmenu->readmenu();
-		
+
 	reload_page("?mod=".$module);
 	break;
 }
@@ -314,13 +314,13 @@ if ($result = $db->Execute("show tables")) {
 								"dbField" => $fresult->fields[0],
 								"dbFieldType" => $fresult->fields[1]
 				);
-				
+
 				$fresult->MoveNext();
 			}
 		}
 
 		$data_db[$result->fields[0]] = $tmpfields;
-		
+
 		$result->MoveNext();
 	}
 }
@@ -332,9 +332,9 @@ if ($result = $db->Execute("select id, aTable, aTableDesc from aTable where aTab
 
 		$tmpfields = array();
 		if ($fresult = $db->Execute("select aField.id, aField, aFieldDesc, aFieldType from aField, aFieldType where aField.refid_aTable = '".$result->fields["id"]."' and aField.refid_aFieldType = aFieldType.id")) {
-		
+
 			while (!$fresult->EOF) {
-		
+
 				$tmpfields[$fresult->fields["aField"]] = array(
 						"id" => $fresult->fields["id"],
 						"aField" => $fresult->fields["aField"],
@@ -345,7 +345,7 @@ if ($result = $db->Execute("select id, aTable, aTableDesc from aTable where aTab
 				$fresult->MoveNext();
 			}
 		}
-		
+
 		$data[] = array(
 				"id" => $result->fields["id"],
 				"table" => $result->fields["aTable"],
@@ -398,7 +398,7 @@ for ($i=0; $i<count($data); $i++) {
 				unset($fieldarr["aFieldType"]);
 				$fieldarr["checkField"] = 0;
 			} else {
-				
+
 				$fieldarr["checkField"] = 3;
 			}
 			unset($fieldarr["dbField"]);
@@ -413,7 +413,7 @@ for ($i=0; $i<count($data); $i++) {
 			} else {
 				$fieldarr["checkField"] = 1;
 			}
-		} else {	
+		} else {
 			$fieldarr["field"] = $fieldarr["aField"];
 			$fieldarr["fieldType"] = $fieldarr["aFieldType"];
 			unset($fieldarr["aField"]);

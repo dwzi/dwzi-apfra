@@ -5,7 +5,7 @@ $page = isset($_SESSION["psd"]["p"]) ? $_SESSION["psd"]["p"] : 1;
 $search = isset($_SESSION["psd"]["s"]) ? $_SESSION["psd"]["s"] : "";
 $sort = isset($_SESSION["psd"]["sort"]) ? $_SESSION["psd"]["sort"] : "";
 $dirsort = isset($_SESSION["psd"]["dir"]) ? $_SESSION["psd"]["dir"] : "asc";
-$fpath = isset($_SESSION["psd"]["fpath"]) ? "/".$_SESSION["psd"]["fpath"] : "";
+$fpath = isset($_SESSION["psd"]["fpath"]) ? DS.$_SESSION["psd"]["fpath"] : "";
 
 $data = array();
 
@@ -14,13 +14,13 @@ switch ($action) {
 /*
 case "edit":
 case "delete":
-	require(DEF_PATH_PRIVATE."apfra/class/datafile/datafile_a_".$action.".php");
+	require(DEF_PATH_PRIVATE."apfra".DS."class".DS."datafile".DS."datafile_a_".$action.".php");
 	break;
 */
 /* main */
 case "":
-default:	
-	require(DEF_PATH_PRIVATE."apfra/class/datafile/datafile_main.php");
+default:
+	require(DEF_PATH_PRIVATE."apfra".DS."class".DS."datafile".DS."datafile_main.php");
 	break;
 }
 

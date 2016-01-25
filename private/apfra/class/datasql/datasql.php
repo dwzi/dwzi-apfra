@@ -140,21 +140,21 @@ case "export":
 case "print":
 case "json":
 case "file":
-	if (file_exists(DEF_PATH_PRIVATE."mod/".$module."/".$module."_a_".$action."_pre.inc.php")) {
-		require(DEF_PATH_PRIVATE."mod/".$module."/".$module."_a_".$action."_pre.inc.php");
+	if (file_exists(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_a_".$action."_pre.inc.php")) {
+		require(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_a_".$action."_pre.inc.php");
 	}
-	require(DEF_PATH_PRIVATE."apfra/class/datasql/datasql_a_".$action.".php");
+	require(DEF_PATH_PRIVATE."apfra".DS."class".DS."datasql".DS."datasql_a_".$action.".php");
 	break;
 
 /* main */
 case "":
 default:
-	if (file_exists(DEF_PATH_PRIVATE."mod/".$module."/".$module."_main_pre.inc.php")) {
-		require(DEF_PATH_PRIVATE."mod/".$module."/".$module."_main_pre.inc.php");
+	if (file_exists(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_main_pre.inc.php")) {
+		require(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_main_pre.inc.php");
 	}
-	require(DEF_PATH_PRIVATE."apfra/class/datasql/datasql_main.php");
-	if (file_exists(DEF_PATH_PRIVATE."mod/".$module."/".$module."_main_post.inc.php")) {
-		require(DEF_PATH_PRIVATE."mod/".$module."/".$module."_main_post.inc.php");
+	require(DEF_PATH_PRIVATE."apfra".DS."class".DS."datasql".DS."datasql_main.php");
+	if (file_exists(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_main_post.inc.php")) {
+		require(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_main_post.inc.php");
 	}
 	break;
 }

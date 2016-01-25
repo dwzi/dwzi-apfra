@@ -26,11 +26,11 @@
 
 {if $class == "datasql"}
 
-	{include file="`$path`../private/apfra/class/datasql/datasql.tpl.php"}
+	{include file="datasql/datasql.tpl.php"}
 
 {elseif $class == "datafile"}
 
-	{include file="`$path`../private/apfra/class/datafile/datafile.tpl.php"}
+	{include file="datafile/datafile.tpl.php"}
 
 {else}
 

@@ -31,7 +31,7 @@ if (DEF_PREVENT_AUTOLOGOUT == "1" && DEF_PREVENT_TIME < "60") die("prevent autol
 
 /* init */
 
-require(DEF_PATH_PRIVATE."apfra/lib/init.inc.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."init.inc.php");
 
 $class = "";
 $module = isset($_SESSION["psd"]["mod"]) && $_SESSION["psd"]["mod"] ? $_SESSION["psd"]["mod"] : "index";
@@ -58,7 +58,7 @@ if ($logged_in) {
 	}
 }
 
-require(DEF_PATH_PRIVATE."apfra/lib/menu.inc.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."menu.inc.php");
 
 /* template/module */
 
@@ -73,35 +73,35 @@ if (!$logged_in && !in_array($module, array("login", "quicklogin", "loggedout", 
 		$module = "index";
 	}
 
-	if (file_exists(DEF_PATH_PRIVATE."apfra/config/datasql/".$module.".datasql.php")) {
+	if (file_exists(DEF_PATH_PRIVATE."apfra".DS."config".DS."datasql".DS.$module.".datasql.php")) {
 
 		$class = "datasql";
-		require(DEF_PATH_PRIVATE."apfra/config/datasql/".$module.".datasql.php");
-		require(DEF_PATH_PRIVATE."apfra/class/datasql/datasql.php");
+		require(DEF_PATH_PRIVATE."apfra".DS."config".DS."datasql".DS.$module.".datasql.php");
+		require(DEF_PATH_PRIVATE."apfra".DS."class".DS."datasql".DS."datasql.php");
 
-	} elseif (file_exists(DEF_PATH_PRIVATE."config/datasql/".$module.".datasql.php")) {
+	} elseif (file_exists(DEF_PATH_PRIVATE."config".DS."datasql".DS.$module.".datasql.php")) {
 
 		$class = "datasql";
-		require(DEF_PATH_PRIVATE."config/datasql/".$module.".datasql.php");
-		require(DEF_PATH_PRIVATE."apfra/class/datasql/datasql.php");
+		require(DEF_PATH_PRIVATE."config".DS."datasql".DS.$module.".datasql.php");
+		require(DEF_PATH_PRIVATE."apfra".DS."class".DS."datasql".DS."datasql.php");
 
-	} elseif (file_exists(DEF_PATH_PRIVATE."config/datafile/".$module.".datafile.php")) {
+	} elseif (file_exists(DEF_PATH_PRIVATE."config".DS."datafile".DS.$module.".datafile.php")) {
 
 		$class = "datafile";
-		require(DEF_PATH_PRIVATE."config/datafile/".$module.".datafile.php");
-		require(DEF_PATH_PRIVATE."apfra/class/datafile/datafile.php");
+		require(DEF_PATH_PRIVATE."config".DS."datafile".DS.$module.".datafile.php");
+		require(DEF_PATH_PRIVATE."apfra".DS."class".DS."datafile".DS."datafile.php");
 
 	} else {
 
-		if (file_exists(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module.".php")) {
+		if (file_exists(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module.".php")) {
 
-			require(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module.".php");
+			require(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module.".php");
 
-		} elseif (file_exists(DEF_PATH_PRIVATE."mod/".$module."/".$module.".php")) {
+		} elseif (file_exists(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module.".php")) {
 
-			require(DEF_PATH_PRIVATE."mod/".$module."/".$module.".php");
+			require(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module.".php");
 		}
-		if (!file_exists(DEF_PATH_PRIVATE."apfra/mod/".$module."/".$module.".tpl.php") && !file_exists(DEF_PATH_PRIVATE."mod/".$module."/".$module.".tpl.php")) {
+		if (!file_exists(DEF_PATH_PRIVATE."apfra".DS."mod".DS.$module.DS.$module.".tpl.php") && !file_exists(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module.".tpl.php")) {
 
 			$module = "index";
 		}
@@ -128,6 +128,6 @@ $smarty->assign("module", $module);
 $smarty->assign("action", $action);
 $smarty->display("index.tpl.php");
 
-require(DEF_PATH_PRIVATE."apfra/lib/exit.inc.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."exit.inc.php");
 
 ?>

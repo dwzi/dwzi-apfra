@@ -36,7 +36,7 @@ if ($formaction == "import" && $f_stamp == "") {
 				$zip->extractTo($tmppath);
 				$zip->close();
 
-				$tmpdirarr = glob($tmppath."/*");
+				$tmpdirarr = glob($tmppath.DS."*");
 				if (count($tmpdirarr) == 1) {
 
 					$tmpdir = basename($tmpdirarr[0]);
@@ -64,9 +64,9 @@ if ($formaction == "import" && $f_stamp == "") {
 
 			@unlink($tmpfile);
 
-			$export_files = unserialize(file_get_contents($tmppath."/".$tmpdir."/files.apfra"));
-			$export = unserialize(file_get_contents($tmppath."/".$tmpdir."/export.apfra"));
-			$export_ids = unserialize(file_get_contents($tmppath."/".$tmpdir."/ids.apfra"));
+			$export_files = unserialize(file_get_contents($tmppath.DS.$tmpdir.DS."files.apfra"));
+			$export = unserialize(file_get_contents($tmppath.DS.$tmpdir.DS."export.apfra"));
+			$export_ids = unserialize(file_get_contents($tmppath.DS.$tmpdir.DS."ids.apfra"));
 
 			if (!(is_array($export) && is_array($export_files) && is_array($export_ids))) {
 
@@ -92,15 +92,15 @@ if ($f_stamp != "") {
  		reload_page("?mod=".$module);
 	}
 
-	$tmpdirarr = glob($tmppath."/*");
+	$tmpdirarr = glob($tmppath.DS."*");
 	$tmpdir = basename($tmpdirarr[0]);
 
-	$export = unserialize(file_get_contents($tmppath."/".$tmpdir."/export.apfra"));
-	$export_files = unserialize(file_get_contents($tmppath."/".$tmpdir."/files.apfra"));
-	$export_ids = unserialize(file_get_contents($tmppath."/".$tmpdir."/ids.apfra"));
+	$export = unserialize(file_get_contents($tmppath.DS.$tmpdir.DS."export.apfra"));
+	$export_files = unserialize(file_get_contents($tmppath.DS.$tmpdir.DS."files.apfra"));
+	$export_ids = unserialize(file_get_contents($tmppath.DS.$tmpdir.DS."ids.apfra"));
 
 	$backup_files = array();
-	foreach (glob($tmppath."/".$tmpdir."/csv/*") as $file) {
+	foreach (glob($tmppath.DS.$tmpdir.DS."csv".DS."*") as $file) {
 		if (is_file($file)) {
 			$backup_files[] = basename($file);
 		}
@@ -148,7 +148,7 @@ if ($f_stamp != "") {
 			$tmpzipname = date("Ymd_His")."_".$f_stamp;
 
 			$zip = new apfra_zip();
-			$res = $zip->open(DEF_PATH_PRIVATE."bak/".$tmpzipname.".zip", ZipArchive::CREATE);
+			$res = $zip->open(DEF_PATH_PRIVATE."bak".DS.$tmpzipname.".zip", ZipArchive::CREATE);
 			if($res === TRUE) {
 
 				$oldmask = umask(0);
@@ -157,21 +157,21 @@ if ($f_stamp != "") {
 
 				foreach ($drop_tab as $value) {
 
-					$query = "select * into outfile '".sys_get_temp_dir()."csv/".$value.".csv' fields terminated by ',' optionally enclosed by '\"' lines terminated by '\n' from ".$value;
+					$query = "select * into outfile '".sys_get_temp_dir()."csv".DS.$value.".csv' fields terminated by ',' optionally enclosed by '\"' lines terminated by '\n' from ".$value;
 					$db->Execute($query);
 
-					$zip->addFile(sys_get_temp_dir()."csv/".$value.".csv", $tmpzipname."/csv/".$value.".csv");
+					$zip->addFile(sys_get_temp_dir()."csv".DS.$value.".csv", $tmpzipname.DS."csv".DS.$value.".csv");
 				}
 
-				$zip->addDir(DEF_PATH_PRIVATE."config/datafile", $tmpzipname."/config/datafile");
-				$zip->addDir(DEF_PATH_PRIVATE."config/datasql", $tmpzipname."/config/datasql");
-				$zip->addDir(DEF_PATH_PRIVATE."mod", $tmpzipname."/mod");
-				$zip->addDir(DEF_PATH_PRIVATE."doc", $tmpzipname."/doc");
+				$zip->addDir(DEF_PATH_PRIVATE."config".DS."datafile", $tmpzipname.DS."config".DS."datafile");
+				$zip->addDir(DEF_PATH_PRIVATE."config".DS."datasql", $tmpzipname.DS."config".DS."datasql");
+				$zip->addDir(DEF_PATH_PRIVATE."mod", $tmpzipname.DS."mod");
+				$zip->addDir(DEF_PATH_PRIVATE."doc", $tmpzipname.DS."doc");
 				$zip->close();
 
 				foreach ($drop_tab as $value) {
 
-					@unlink(sys_get_temp_dir()."csv/".$value.".csv");
+					@unlink(sys_get_temp_dir()."csv".DS.$value.".csv");
 				}
 				@rmdir(sys_get_temp_dir()."csv");
 
@@ -182,25 +182,25 @@ if ($f_stamp != "") {
 
 			/* delete files */
 
-			foreach (glob(DEF_PATH_PRIVATE."config/datafile/*") as $file) {
+			foreach (glob(DEF_PATH_PRIVATE."config".DS."datafile".DS."*") as $file) {
 				if (is_file($file)) {
 					@unlink($file);
 				}
 			}
 
-			foreach (glob(DEF_PATH_PRIVATE."config/datasql/*") as $file) {
+			foreach (glob(DEF_PATH_PRIVATE."config".DS."datasql".DS."*") as $file) {
 				if (is_file($file)) {
 					@unlink($file);
 				}
 			}
 
-			foreach (glob(DEF_PATH_PRIVATE."mod/*") as $file) {
+			foreach (glob(DEF_PATH_PRIVATE."mod".DS."*") as $file) {
 				if (is_dir($file)) {
 					unlinkrec($file);
 				}
 			}
 
-			foreach (glob(DEF_PATH_PRIVATE."doc/*") as $file) {
+			foreach (glob(DEF_PATH_PRIVATE."doc".DS."*") as $file) {
 				if (is_file($file)) {
 					@unlink($file);
 				} elseif (is_dir($file)) {
@@ -363,7 +363,7 @@ if ($f_stamp != "") {
 			foreach ($backup_files as $file) {
 
 				$tmp_table = substr($file, 0, -4);
-				$query = "load data infile '".$tmppath."/".$tmpdir."/csv/".$file."' into table ".$tmp_table." fields terminated by ',' optionally enclosed by '\"' lines terminated by '\n'";
+				$query = "load data infile '".$tmppath.DS.$tmpdir.DS."csv".DS.$file."' into table ".$tmp_table." fields terminated by ',' optionally enclosed by '\"' lines terminated by '\n'";
 				$db->Execute($query);
 
 				if ($tmp_table == "aRight") {
@@ -427,17 +427,17 @@ if ($f_stamp != "") {
 			}
 		}
 
-		foreach (glob($tmppath."/".$tmpdir."/config/datafile/*") as $file) {
-			rename($file, str_replace($tmppath."/".$tmpdir."/config/datafile/", DEF_PATH_PRIVATE."config/datafile/", $file));
+		foreach (glob($tmppath.DS.$tmpdir.DS."config".DS."datafile".DS."*") as $file) {
+			rename($file, str_replace($tmppath.DS.$tmpdir.DS."config".DS."datafile".DS, DEF_PATH_PRIVATE."config".DS."datafile".DS, $file));
 		}
-		foreach (glob($tmppath."/".$tmpdir."/config/datasql/*") as $file) {
-			rename($file, str_replace($tmppath."/".$tmpdir."/config/datasql/", DEF_PATH_PRIVATE."config/datasql/", $file));
+		foreach (glob($tmppath.DS.$tmpdir.DS."config".DS."datasql".DS."*") as $file) {
+			rename($file, str_replace($tmppath.DS.$tmpdir.DS."config".DS."datasql".DS, DEF_PATH_PRIVATE."config".DS."datasql".DS, $file));
 		}
-		foreach (glob($tmppath."/".$tmpdir."/mod/*") as $file) {
-			rename($file, str_replace($tmppath."/".$tmpdir."/mod/", DEF_PATH_PRIVATE."mod/", $file));
+		foreach (glob($tmppath.DS.$tmpdir.DS."mod".DS."*") as $file) {
+			rename($file, str_replace($tmppath.DS.$tmpdir.DS."mod".DS, DEF_PATH_PRIVATE."mod".DS, $file));
 		}
-		foreach (glob($tmppath."/".$tmpdir."/doc/*") as $file) {
-			rename($file, str_replace($tmppath."/".$tmpdir."/doc/", DEF_PATH_PRIVATE."doc/", $file));
+		foreach (glob($tmppath.DS.$tmpdir.DS."doc".DS."*") as $file) {
+			rename($file, str_replace($tmppath.DS.$tmpdir.DS."doc".DS, DEF_PATH_PRIVATE."doc".DS, $file));
 		}
 
 		// delete tmp data
@@ -469,12 +469,12 @@ function unlinkrec($base) {
 
 	foreach (scandir($base) as $file) {
 
-		if (is_dir($base."/".$file)) {
+		if (is_dir($base.DS.$file)) {
 			if (!in_array($file, array(".", ".."))) {
-				@unlinkrec($base."/".$file);
+				@unlinkrec($base.DS.$file);
 			}
 		} else {
-			@unlink($base."/".$file);
+			@unlink($base.DS.$file);
 		}
 	}
 	@rmdir($base);

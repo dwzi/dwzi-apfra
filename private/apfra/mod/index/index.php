@@ -12,15 +12,15 @@ if ($logged_in) {
 
 			while (!$result->EOF) {
 
-				if ($apfra_rights[$result->fields["aTable"]]["sum"] && file_exists(DEF_PATH_PRIVATE."config/datasql/".$result->fields["aTable"].".datasql.php")) {
+				if ($apfra_rights[$result->fields["aTable"]]["sum"] && file_exists(DEF_PATH_PRIVATE."config".DS."datasql".DS.$result->fields["aTable"].".datasql.php")) {
 
-					if (file_exists(DEF_PATH_PRIVATE."apfra/config/datasql/".$result->fields["aTable"].".datasql.php")) {
+					if (file_exists(DEF_PATH_PRIVATE."apfra".DS."config".DS."datasql".DS.$result->fields["aTable"].".datasql.php")) {
 
-						require(DEF_PATH_PRIVATE."apfra/config/datasql/".$result->fields["aTable"].".datasql.php");
+						require(DEF_PATH_PRIVATE."apfra".DS."config".DS."datasql".DS.$result->fields["aTable"].".datasql.php");
 
-					} elseif (file_exists(DEF_PATH_PRIVATE."config/datasql/".$result->fields["aTable"].".datasql.php")) {
+					} elseif (file_exists(DEF_PATH_PRIVATE."config".DS."datasql".DS.$result->fields["aTable"].".datasql.php")) {
 
-						require(DEF_PATH_PRIVATE."config/datasql/".$result->fields["aTable"].".datasql.php");
+						require(DEF_PATH_PRIVATE."config".DS."datasql".DS.$result->fields["aTable"].".datasql.php");
 					}
 
 					$tmpfields = array();

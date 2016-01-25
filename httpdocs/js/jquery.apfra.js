@@ -8,7 +8,7 @@
                 serialStr += $.trim($(this).attr('data-value'))+",";
                 $(this).children().each(function(){
                     if(this.tagName == 'UL' || this.tagName == 'OL'){
-                        serialStr += $(this).serializelist();
+                        serialStr += $(this).serializelist()+",";
                     }
                 });
             });

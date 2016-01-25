@@ -1,6 +1,6 @@
 <?php
 
-require(DEF_PATH_PRIVATE."apfra/lib/phpexcel/Classes/PHPExcel.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."phpexcel".DS."Classes".DS."PHPExcel.php");
 
 $ftemplate = isset($_SESSION["psd"]["ftemplate"]) ? $_SESSION["psd"]["ftemplate"] : "";
 $fdata = isset($_SESSION["psd"]["fdata"]) ? $_SESSION["psd"]["fdata"] : "";
@@ -10,8 +10,8 @@ if ($id > 0 && $ftemplate) {
 	$sql_wherearr = array();
 
 	$datasql_excel_values = array();
-	if (file_exists(DEF_PATH_PRIVATE."mod/".$module."/".$module."_a_excel.inc.php")) {
-		require(DEF_PATH_PRIVATE."mod/".$module."/".$module."_a_excel.inc.php");
+	if (file_exists(DEF_PATH_PRIVATE."mod".DS.$module.DS.$module."_a_excel.inc.php")) {
+		require(DEF_PATH_PRIVATE."mod".DS."".$module.DS.$module."_a_excel.inc.php");
 	}
 
 	$values = array();
@@ -54,7 +54,7 @@ if ($id > 0 && $ftemplate) {
 		}
 	}
 
-	$inputFileName = DEF_PATH_PRIVATE."doc/".$ftemplate;
+	$inputFileName = DEF_PATH_PRIVATE."doc".DS.$ftemplate;
 
 	$inputFileType = PHPExcel_IOFactory::identify($inputFileName);
 	$objReader = PHPExcel_IOFactory::createReader($inputFileType);
@@ -218,7 +218,7 @@ if ($id > 0 && $ftemplate) {
 	readfile($temp_file);
 	unlink($temp_file);
 
-	require(DEF_PATH_PRIVATE."apfra/lib/exit.inc.php");
+	require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."exit.inc.php");
 	die();
 }
 

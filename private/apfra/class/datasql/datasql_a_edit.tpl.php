@@ -169,7 +169,7 @@ $('#Modal-delete-file').on('show.bs.modal', function(e) {
 								$datasql_edit_fields[ti].row[i].col[j].type == 'password' ||
 								$datasql_edit_fields[ti].row[i].col[j].type == 'checkbox'}
 
-{include file="`$path`../private/apfra/class/datasql/datasql_a_edit_`$datasql_edit_fields[ti].row[i].col[j].type`.tpl.php"}
+{include file="datasql/datasql_a_edit_`$datasql_edit_fields[ti].row[i].col[j].type`.tpl.php"}
 
 							{/if}
 

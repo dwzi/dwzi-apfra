@@ -133,7 +133,7 @@ if ($result = $db->Execute($query)) {
 
 fclose($output);
 
-require(DEF_PATH_PRIVATE."apfra/lib/exit.inc.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."exit.inc.php");
 die();
 
 ?>

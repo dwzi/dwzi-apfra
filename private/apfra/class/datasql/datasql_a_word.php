@@ -1,6 +1,6 @@
 <?php
 
-require(DEF_PATH_PRIVATE."apfra/lib/phpword/Autoloader.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."phpword".DS."Autoloader.php");
 
 use PhpOffice\PhpWord\Autoloader;
 use PhpOffice\PhpWord\Settings;
@@ -13,7 +13,7 @@ $fdata = isset($_SESSION["psd"]["fdata"]) ? $_SESSION["psd"]["fdata"] : "";
 
 if ($id > 0 && $ftemplate) {
 
-	$document = new \PhpOffice\PhpWord\TemplateProcessor(DEF_PATH_PRIVATE."doc/".$ftemplate);
+	$document = new \PhpOffice\PhpWord\TemplateProcessor(DEF_PATH_PRIVATE."doc".DS.$ftemplate);
 
 	$datasql_fields_edit = array();
 	$datasql_fields_edit_ref1n = array();
@@ -206,7 +206,7 @@ if ($id > 0 && $ftemplate) {
 	readfile($temp_file);
 	unlink($temp_file);
 
-	require(DEF_PATH_PRIVATE."apfra/lib/exit.inc.php");
+	require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."exit.inc.php");
 	die();
 }
 

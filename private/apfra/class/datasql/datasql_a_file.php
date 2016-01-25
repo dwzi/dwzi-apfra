@@ -7,7 +7,7 @@ $query = "select ".$col.", ".$col."_fileinfo from ".$datasql_table." where id = 
 if ($result = $db->Execute($query)) {
 
 	if (!$result->EOF) {
-		
+
 		$tmpinfo = unserialize($result->fields[$col."_fileinfo"]);
 
 		header('Content-Type: '.$tmpinfo["type"]);
@@ -15,7 +15,7 @@ if ($result = $db->Execute($query)) {
 	}
 }
 
-require(DEF_PATH_PRIVATE."apfra/lib/exit.inc.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."exit.inc.php");
 die();
 
 ?>

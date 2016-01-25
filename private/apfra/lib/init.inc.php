@@ -2,7 +2,7 @@
 
 /* error handler */
 
-require(DEF_PATH_PRIVATE."apfra/lib/error_handler.inc.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."error_handler.inc.php");
 
 /* dont stop php script */
 
@@ -29,13 +29,14 @@ session_start();
 
 /* template */
 
-require(DEF_PATH_PRIVATE."apfra/lib/smarty/Smarty.class.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."smarty".DS."Smarty.class.php");
 
 $smarty = new Smarty();
 
 $smarty->setTemplateDir(array(
-		"apfra" => DEF_PATH_PRIVATE."apfra/mod/",
-		"user" => DEF_PATH_PRIVATE."mod/"
+	"apfra" => DEF_PATH_PRIVATE."apfra".DS."mod".DS,
+	"apfra_class" => DEF_PATH_PRIVATE."apfra".DS."class".DS,
+	"user" => DEF_PATH_PRIVATE."mod".DS
 ));
 
 $smarty->setCompileDir(DEF_PATH_PRIVATE."tplc");
@@ -53,7 +54,7 @@ $smarty->muteExpectedErrors();
 
 /* database-layer */
 
-require(DEF_PATH_PRIVATE."apfra/lib/adodb5/adodb.inc.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."adodb5".DS."adodb.inc.php");
 
 /* create database connection */
 
@@ -63,19 +64,19 @@ $db->Execute("SET CHARACTER SET utf8");
 
 /* logging */
 
-require(DEF_PATH_PRIVATE."apfra/lib/logdb.class.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."logdb.class.php");
 
 $apfra_log_db = new apfra_log_db($db);
 
-require(DEF_PATH_PRIVATE."apfra/lib/loguser.class.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."loguser.class.php");
 
 $apfra_log_user = new apfra_log_user($db);
 
 /* other classes */
 
-require(DEF_PATH_PRIVATE."apfra/lib/rights.class.php");
-require(DEF_PATH_PRIVATE."apfra/lib/menu.class.php");
-require(DEF_PATH_PRIVATE."apfra/lib/zip.class.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."rights.class.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."menu.class.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."zip.class.php");
 
 /* standard parameters */
 
@@ -248,7 +249,7 @@ if ($logged_in) {
 
 /* version files */
 
-$version = file_get_contents(DEF_PATH_PRIVATE."config/version.txt");
+$version = file_get_contents(DEF_PATH_PRIVATE."config".DS."version.txt");
 $version = trim($version);
 if (!preg_match("/^[0-9]{1,2}\.[0-9]{1,2} \([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}\)$/",$version)) {
 	echo "error: version hacking";
@@ -310,13 +311,13 @@ if (count($version_db) != 1) {
 $version_dwzi = "";
 
 /* check only one time per day for newer versions */
-if (file_exists(DEF_PATH_PRIVATE."tplc/version_dwzi.txt") && date("Y-m-d", filectime(DEF_PATH_PRIVATE."tplc/version_dwzi.txt")) != date("Y-m-d")) {
-	@unlink(DEF_PATH_PRIVATE."tplc/version_dwzi.txt");
+if (file_exists(DEF_PATH_PRIVATE."tplc".DS."version_dwzi.txt") && date("Y-m-d", filectime(DEF_PATH_PRIVATE."tplc".DS."version_dwzi.txt")) != date("Y-m-d")) {
+	@unlink(DEF_PATH_PRIVATE."tplc".DS."version_dwzi.txt");
 }
 
-if (file_exists(DEF_PATH_PRIVATE."tplc/version_dwzi.txt")) {
+if (file_exists(DEF_PATH_PRIVATE."tplc".DS."version_dwzi.txt")) {
 
-	$version_dwzi = file_get_contents(DEF_PATH_PRIVATE."tplc/version_dwzi.txt");
+	$version_dwzi = file_get_contents(DEF_PATH_PRIVATE."tplc".DS."version_dwzi.txt");
 	$version_dwzi = trim($version_dwzi);
 
 } else {
@@ -335,7 +336,7 @@ if (file_exists(DEF_PATH_PRIVATE."tplc/version_dwzi.txt")) {
 
 			$version_dwzi = trim($version_dwzi);
 			if (preg_match("/^[0-9]{1,2}\.[0-9]{1,2} \([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}\)$/",$version_dwzi)) {
-				file_put_contents(DEF_PATH_PRIVATE."tplc/version_dwzi.txt", $version_dwzi);
+				file_put_contents(DEF_PATH_PRIVATE."tplc".DS."version_dwzi.txt", $version_dwzi);
 			} else {
 					$version_dwzi = "";
 			}
@@ -355,7 +356,7 @@ $smarty->assign("version_dwzi", $version_dwzi);
 
 if (file_exists(DEF_PATH_PRIVATE."cron")) {
 
-	foreach (glob(DEF_PATH_PRIVATE."cron/*.inc.php") as $file) {
+	foreach (glob(DEF_PATH_PRIVATE."cron".DS."*.inc.php") as $file) {
 
 		$filename = basename($file);
 
@@ -363,17 +364,17 @@ if (file_exists(DEF_PATH_PRIVATE."cron")) {
 		$interval = $tmparr[0];
 		if (is_numeric($interval)) {
 
-			if (file_exists(DEF_PATH_PRIVATE."tplc/cron_".$filename.".txt") && ((time() - filectime(DEF_PATH_PRIVATE."tplc/cron_".$filename.".txt")) > $interval)) {
+			if (file_exists(DEF_PATH_PRIVATE."tplc".DS."cron_".$filename.".txt") && ((time() - filectime(DEF_PATH_PRIVATE."tplc".DS."cron_".$filename.".txt")) > $interval)) {
 
 				/* interval reached, delete cron stamp */
-				@unlink(DEF_PATH_PRIVATE."tplc/cron_".$filename.".txt");
+				@unlink(DEF_PATH_PRIVATE."tplc".DS."cron_".$filename.".txt");
 			}
 
-			if (!file_exists(DEF_PATH_PRIVATE."tplc/cron_".$filename.".txt")) {
+			if (!file_exists(DEF_PATH_PRIVATE."tplc".DS."cron_".$filename.".txt")) {
 
 				/* set cron stamp */
 
-				file_put_contents(DEF_PATH_PRIVATE."tplc/cron_".$filename.".txt", "");
+				file_put_contents(DEF_PATH_PRIVATE."tplc".DS."cron_".$filename.".txt", "");
 
 				require_once($file);
 			}
@@ -400,7 +401,7 @@ $smarty->assign("is_admin", $is_admin);
 
 function reload_page($param = '') {
 
-	require(DEF_PATH_PRIVATE."apfra/lib/exit.inc.php");
+	require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."exit.inc.php");
 
 	header("Location: ".DEF_URL.$param);
 	die();
@@ -492,7 +493,7 @@ function create_filearr($fbase, $ftype = "", $fpath = "") {
 
 	$farr = array();
 
-	foreach (glob(($fpath ? $fpath : $fbase)."/*") as $file) {
+	foreach (glob(($fpath ? $fpath : $fbase).DS."*") as $file) {
 
 		if (is_dir($file)) {
 			$farr = array_merge($farr, create_filearr($fbase, $ftype, $file));

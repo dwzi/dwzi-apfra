@@ -60,3 +60,10 @@
    mysql < v1.50_diff.sql
 
    new parameters in config.inc.php (DEF_PREVENT_AUTOLOGOUT, DEF_PREVENT_TIME, DEF_AUTORELOAD, DEF_AUTOLOGOUT)
+
+1.51 (25.01.2016)
+
+   cd upgrade
+   mysql < v1.51_diff.sql
+
+   define DIRECTORY_SEPARATOR in config.inc.php, and changed in all files

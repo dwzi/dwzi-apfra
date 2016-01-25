@@ -2,12 +2,12 @@
 
 {if $apfra_rights[$module]["upd"] == 0}
 
-	{include file="`$path`../private/apfra/class/datasql/datasql_a_edit_reference.tpl.php"}
+	{include file="datasql/datasql_a_edit_reference.tpl.php"}
 
 {else}
 
 	{assign var="tmpdesc" value="{$datasql_table}.{$datasql_edit_fields[ti].row[i].col[j].field}"}
-	
+
 	<div class="form-group has-feedback">
 		<label class="control-label col-md-{2*$datasql_edit_fields[ti].row[i].col|@count}" for="f_{$datasql_edit_fields[ti].row[i].col[j].field}">{if isset($apfra_db_desc[$tmpdesc])}{$apfra_db_desc[$tmpdesc]}{else}{$tmpdesc}{/if}{if isset($datasql_edit_fields[ti].row[i].col[j].required) && $datasql_edit_fields[ti].row[i].col[j].required == 1} *{/if}</label>
 		<div class="col-md-{12-(2*$datasql_edit_fields[ti].row[i].col|@count)}">

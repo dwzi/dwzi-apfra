@@ -1,6 +1,6 @@
 <?php
 
-require(DEF_PATH_PRIVATE."apfra/lib/tcpdf/tcpdf.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."tcpdf".DS."tcpdf.php");
 
 // extend TCPF with custom functions
 class MYPDF extends TCPDF {
@@ -297,7 +297,7 @@ $pdf->ColoredTable($header, $data);
 // This method has several options, check the source code documentation for more information.
 $pdf->Output(date("Y-m-d_H-i-s").'_report.pdf', 'I');
 
-require(DEF_PATH_PRIVATE."apfra/lib/exit.inc.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."exit.inc.php");
 die();
 
 ?>

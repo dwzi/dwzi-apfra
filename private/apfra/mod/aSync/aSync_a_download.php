@@ -21,7 +21,7 @@ function todesc($value) {
 			$i++;
 		}
 	}
-	
+
 	return $tmpdesc;
 }
 
@@ -38,31 +38,31 @@ if (($result = $db->Execute("show tables"))) {
 			if (substr($tmptable,0,6) != "ref1n_") {
 
 				$xmltable = $xmltables->addChild('table');
-				$xmltable->addAttribute('name', $tmptable);				
+				$xmltable->addAttribute('name', $tmptable);
 				$xmltable->addAttribute('desc', todesc($tmptable));
-				
+
 				$xmlfields = $xmltable->addChild('fields');
 
 			} else {
-			
+
 				if (!in_array($tmptable, $dataxml_ref1n)) {
 					$dataxml_ref1n[] = $tmptable;
 				}
 			}
-				
+
 			if (($resultf = $db->Execute("show fields from ".$tmptable))) {
-					
+
 				while (!$resultf->EOF) {
 
 					$tmpfield = $resultf->fields[0];
 /*
 					$tmptype = $resultf->fields[1];
 					if ($tmptype == "longtext") $tmptype = "text";
-					if (substr($tmptype,0,3) == "int") $tmptype = "text"; 
+					if (substr($tmptype,0,3) == "int") $tmptype = "text";
 					if (substr($tmptype,0,7) == "varchar") $tmptype = "text";
-*/			
+*/
 					if (!in_array($tmpfield, array('id', 'aLastUpdate', 'refid_aUser_update'))) {
-						
+
 						$tmpdesc = $resultf->fields[0];
 						if (substr($tmpdesc,0,6) == "refid_") {
 							$tmpdesc = "";
@@ -77,7 +77,7 @@ if (($result = $db->Execute("show tables"))) {
 							$xmlfield->addAttribute('desc', $tmpdesc);
 //							$xmlfield->addAttribute('type', $tmptype);
 						}
-			
+
 						if (substr($tmpfield,0,6) == "refid_") {
 							if (!in_array($tmpfield, $dataxml_ref11)) {
 								$dataxml_ref11[] = $tmpfield;
@@ -86,24 +86,24 @@ if (($result = $db->Execute("show tables"))) {
 					}
 					$resultf->MoveNext();
 				}
-			}				
+			}
 		}
 		$result->MoveNext();
 	}
 }
 
 if (count($dataxml_ref11)) {
-	
+
 	foreach ($dataxml_ref11 as $field) {
 
 		$table = substr($field,6,255);
-		if (strpos($table, "_") !== false) {	
+		if (strpos($table, "_") !== false) {
 			$table = substr($table,0,strpos($table, "_"));
 		}
-		
+
 		$xmltable = $xmlreferences11->addChild('reference');
-		$xmltable->addAttribute('name', $field); 
-		$xmltable->addAttribute('desc', todesc(substr($field,6,255))); 
+		$xmltable->addAttribute('name', $field);
+		$xmltable->addAttribute('desc', todesc(substr($field,6,255)));
 		$xmltable->addAttribute('table', $table);
 		$xmltable->addAttribute('field', $table);
 		$xmltable->addAttribute('search', $table);
@@ -116,7 +116,7 @@ if (count($dataxml_ref1n)) {
 	foreach ($dataxml_ref1n as $table) {
 
 		$xmltable = $xmlreferences1n->addChild('reference');
-		$xmltable->addAttribute('name', substr($table, 6, 255)); 
+		$xmltable->addAttribute('name', substr($table, 6, 255));
 	}
 }
 
@@ -126,7 +126,7 @@ $dom->formatOutput = true;
 $dom->loadXML($xml->asXML());
 echo $dom->saveXML();
 
-require(DEF_PATH_PRIVATE."apfra/lib/exit.inc.php");
+require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."exit.inc.php");
 die();
 
 ?>

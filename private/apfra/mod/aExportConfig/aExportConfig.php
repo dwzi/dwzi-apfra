@@ -168,16 +168,16 @@ if ($formaction == "save") {
 
 					$tmpmod = $result->fields["aModule"];
 
-					if (file_exists(DEF_PATH_PRIVATE."config/datasql/".$tmpmod.".datasql.php")) {
+					if (file_exists(DEF_PATH_PRIVATE."config".DS."datasql".DS.$tmpmod.".datasql.php")) {
 
 						$tmp_files["datasql"][] = $tmpmod.".datasql.php";
 
-					} elseif (file_exists(DEF_PATH_PRIVATE."config/datafile/".$tmpmod.".datafile.php")) {
+					} elseif (file_exists(DEF_PATH_PRIVATE."config".DS."datafile".DS.$tmpmod.".datafile.php")) {
 
 						$tmp_files["datafile"][] = $tmpmod.".datafile.php";
 					}
 
-					foreach (glob(DEF_PATH_PRIVATE."mod/".$tmpmod."/*") as $file) {
+					foreach (glob(DEF_PATH_PRIVATE."mod".DS.$tmpmod.DS."*") as $file) {
 
 						$tmp_files["mod"][$tmpmod][] = basename($file);
 					}
@@ -253,78 +253,78 @@ if ($formaction == "save") {
 	umask($oldmask);
 
 	// create files
-	file_put_contents($tmppath."/export.apfra", serialize($export));
-	file_put_contents($tmppath."/files.apfra", serialize($tmp_files));
-	file_put_contents($tmppath."/ids.apfra", serialize($export_ids));
+	file_put_contents($tmppath.DS."export.apfra", serialize($export));
+	file_put_contents($tmppath.DS."files.apfra", serialize($tmp_files));
+	file_put_contents($tmppath.DS."ids.apfra", serialize($export_ids));
 
 	$oldmask = umask(0);
-	@mkdir($tmppath."/csv");
+	@mkdir($tmppath.DS."csv");
 	umask($oldmask);
 	if (count($backup_tab)) {
 
 		foreach ($backup_tab as $value) {
 
-			$query = "select * into outfile '".$tmppath."/csv/".$value.".csv' fields terminated by ',' optionally enclosed by '\"' lines terminated by '\n' from ".$value;
+			$query = "select * into outfile '".$tmppath.DS."csv".DS.$value.".csv' fields terminated by ',' optionally enclosed by '\"' lines terminated by '\n' from ".$value;
 			$db->Execute($query);
 		}
 	}
 
 	$oldmask = umask(0);
-	@mkdir($tmppath."/config");
+	@mkdir($tmppath.DS."config");
 	umask($oldmask);
 
 	$oldmask = umask(0);
-	@mkdir($tmppath."/config/datafile");
+	@mkdir($tmppath.DS."config".DS."datafile");
 	umask($oldmask);
 
 	foreach ($tmp_files["datafile"] as $file) {
 
-		file_put_contents($tmppath."/config/datafile/".$file, file_get_contents(DEF_PATH_PRIVATE."config/datafile/".$file));
+		file_put_contents($tmppath.DS."config".DS."datafile".DS.$file, file_get_contents(DEF_PATH_PRIVATE."config".DS."datafile".DS.$file));
 	}
 
 	$oldmask = umask(0);
-	@mkdir($tmppath."/config/datasql");
+	@mkdir($tmppath.DS."config".DS."datasql");
 	umask($oldmask);
 
 	foreach ($tmp_files["datasql"] as $file) {
 
-		file_put_contents($tmppath."/config/datasql/".$file, file_get_contents(DEF_PATH_PRIVATE."config/datasql/".$file));
+		file_put_contents($tmppath.DS."config".DS."datasql".DS.$file, file_get_contents(DEF_PATH_PRIVATE."config".DS."datasql".DS.$file));
 	}
 
 	$oldmask = umask(0);
-	@mkdir($tmppath."/mod");
+	@mkdir($tmppath.DS."mod");
 	umask($oldmask);
 
 	foreach ($tmp_files["mod"] as $tmpmod => $filearr) {
 
 		$oldmask = umask(0);
-		@mkdir($tmppath."/mod/".$tmpmod);
+		@mkdir($tmppath.DS."mod".DS.$tmpmod);
 		umask($oldmask);
 
 		foreach ($filearr as $file) {
 
-			file_put_contents($tmppath."/mod/".$tmpmod."/".$file, file_get_contents(DEF_PATH_PRIVATE."mod/".$tmpmod."/".$file));
+			file_put_contents($tmppath.DS."mod".DS.$tmpmod.DS.$file, file_get_contents(DEF_PATH_PRIVATE."mod".DS.$tmpmod.DS.$file));
 		}
 	}
 
 	$oldmask = umask(0);
-	@mkdir($tmppath."/doc");
+	@mkdir($tmppath.DS."doc");
 	umask($oldmask);
 
 	foreach ($tmp_files["doc"] as $file) {
 
-		$tmpparr = explode("/", $file);
+		$tmpparr = explode(DS, $file);
 		$tmpp = "";
 		for ($i=0; $i<count($tmpparr)-1; $i++) {
-			if (!file_exists($tmppath."/doc/".$tmpp.$tmpparr[$i])) {
+			if (!file_exists($tmppath.DS."doc".DS.$tmpp.$tmpparr[$i])) {
 				$oldmask = umask(0);
-				@mkdir($tmppath."/doc/".$tmpp.$tmpparr[$i]);
+				@mkdir($tmppath.DS."doc".DS.$tmpp.$tmpparr[$i]);
 				umask($oldmask);
 			}
-			$tmpp .= $tmpparr[$i]."/";
+			$tmpp .= $tmpparr[$i].DS;
 		}
 
-		file_put_contents($tmppath."/doc/".$file, file_get_contents(DEF_PATH_PRIVATE."doc/".$file));
+		file_put_contents($tmppath.DS."doc".DS.$file, file_get_contents(DEF_PATH_PRIVATE."doc".DS.$file));
 	}
 
 	// zip
@@ -351,7 +351,7 @@ if ($formaction == "save") {
 	readfile(sys_get_temp_dir().$export_fn);
 	unlink(sys_get_temp_dir().$export_fn);
 
-	require(DEF_PATH_PRIVATE."apfra/lib/exit.inc.php");
+	require(DEF_PATH_PRIVATE."apfra".DS."lib".DS."exit.inc.php");
 	die();
 }
 
@@ -428,7 +428,7 @@ $smarty->assign("data_doc", $data_doc);
 function filelist($base, $dir = "") {
 
 	$files = array();
-	foreach (glob(($dir ? $dir : $base)."/*") as $file) {
+	foreach (glob(($dir ? $dir : $base).DS."*") as $file) {
 
 		if (is_dir($file)) {
 			$files = array_merge($files, filelist($base, $file));
@@ -444,12 +444,12 @@ function unlinkrec($base) {
 
 	foreach (scandir($base) as $file) {
 
-		if (is_dir($base."/".$file)) {
+		if (is_dir($base.DS.$file)) {
 			if (!in_array($file, array(".", ".."))) {
-				@unlinkrec($base."/".$file);
+				@unlinkrec($base.DS.$file);
 			}
 		} else {
-			@unlink($base."/".$file);
+			@unlink($base.DS.$file);
 		}
 	}
 	@rmdir($base);
